@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RestfulApiSample.Filters;
 using RestfulApiSample.Models;
 using System.Net;
 using System.Net.Mime;
 
 namespace RestfulApiSample.Controllers
 {
+    [Log]
     [ApiController]
     [Route("[controller]")]
     public class ProductController : ControllerBase
@@ -61,9 +63,12 @@ namespace RestfulApiSample.Controllers
 
         [HttpGet]
         [Route("ActionWithActionResultListData")]
-        public ActionResult<List<Product>> ActionWithActionResultListData()
+        public ActionResult<List<int>> ActionWithActionResultListData()
         {
-            return products is null ? NotFound() : products;
+
+            List<int> ints = products.Select(x=> x.Id).ToList();
+            return products is null ? NotFound() : ints;
+
         }
 
         [HttpGet]
