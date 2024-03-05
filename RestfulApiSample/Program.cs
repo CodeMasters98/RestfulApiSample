@@ -5,8 +5,8 @@ using System.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 
 var configurationBuilder = new ConfigurationBuilder()
-        //.SetBasePath(env.ContentRootPath)
-        //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile($"appsettings.Development.json", optional: true, reloadOnChange: true)
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
 var configuration = configurationBuilder.Build();
