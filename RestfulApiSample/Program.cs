@@ -1,8 +1,11 @@
+using Microsoft.Extensions.DependencyInjection;
 using RestfulApiSample.Extentions;
 using RestfulApiSample.Settings;
 using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 var configurationBuilder = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
@@ -10,6 +13,9 @@ var configurationBuilder = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
 var configuration = configurationBuilder.Build();
+
+//Not good way
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
 // Add services to the container.
 

@@ -14,8 +14,10 @@ namespace RestfulApiSample.Controllers
     public class ProductController : ControllerBase
     {
         private MySettings _settings;
-        public ProductController(IOptionsSnapshot<MySettings> settings)
+        private IConfiguration _configuration;
+        public ProductController(IOptionsSnapshot<MySettings> settings, IConfiguration configuration)
         {
+            _configuration = configuration;
             _settings = settings.Value;
         }
 
