@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using RestfulApiSample.Filters;
 using RestfulApiSample.Models;
+using RestfulApiSample.Settings;
 using System.Net;
 using System.Net.Mime;
 
@@ -11,6 +13,12 @@ namespace RestfulApiSample.Controllers
     [Route("[controller]")]
     public class ProductController : ControllerBase
     {
+        private MySettings _settings;
+        public ProductController(IOptionsSnapshot<MySettings> settings)
+        {
+            _settings = settings.Value;
+        }
+
         public static List<Product> products = new()
         {
             new() { Id = 1, Name = "Test 1" },
@@ -22,7 +30,7 @@ namespace RestfulApiSample.Controllers
         [Route("ActionWithNoContentResponse")]
         public void ActionWithNoContentResponse()
         {
-            Console.WriteLine("ActionWithNoContentResponse called");
+            Console.WriteLine(_settings.StringSetting + "ActionWithNoContentResponse called");
         }
 
         [HttpGet]

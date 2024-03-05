@@ -1,8 +1,19 @@
 using RestfulApiSample.Extentions;
+using RestfulApiSample.Settings;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var configurationBuilder = new ConfigurationBuilder()
+        //.SetBasePath(env.ContentRootPath)
+        //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+var configuration = configurationBuilder.Build();
+
 // Add services to the container.
+
+builder.Services.Configure<MySettings>(configuration.GetSection("MySettings"));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
