@@ -6,8 +6,6 @@ using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-
 var configurationBuilder = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile($"appsettings.Development.json", optional: true, reloadOnChange: true)
@@ -20,7 +18,7 @@ builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
 // Add services to the container.
 
-builder.Services.Configure<MySettings>(configuration.GetSection("MySettings"));
+builder.Services.Configure<MySettings>(builder.Configuration.GetSection(nameof(MySettings)));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
