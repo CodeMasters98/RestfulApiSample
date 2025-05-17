@@ -75,3 +75,16 @@ public class Result<T> : Result
 
         return new ObjectResult(problemResult) { StatusCode = (int)result.Status };
     }
+
+ public static ProblemDetails ToProblemDetails(this Result result)
+     => new()
+     {
+         Status = (int)result.Status,
+         Type = ((ErrorType)result.Status).ToString(),
+         Title = ((ErrorType)result.Status).GetTitle(),
+         Detail = result.Message,
+         Extensions =
+         {
+             ["Errors"] = result.Errors
+         }
+     };
