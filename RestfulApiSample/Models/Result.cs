@@ -53,3 +53,25 @@ public class Result<T> : Result
 
     public static implicit operator Result<T>(T? value) => Create(value);
 }
+
+
+    public static ObjectResult ToObjectResult(this Result result, bool withEnglishMessage)
+    {
+        if (result.Status is not HttpStatusCode.OK)
+            return new ObjectResult(result.ToProblemDetails()) { StatusCode = (int)result.Status };
+
+        if (result.IsSuccess)
+        {
+            if (withEnglishMessage)
+                result.WithMessage("Success");
+
+            return new OkObjectResult(result);
+        }
+
+        Result problemResult = Result.Failure(result.Errors);
+
+        if (withEnglishMessage)
+            problemResult.WithMessage("Failure");
+
+        return new ObjectResult(problemResult) { StatusCode = (int)result.Status };
+    }
